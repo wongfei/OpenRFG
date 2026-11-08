@@ -1,0 +1,202 @@
+// Original: volition/libmodules/havok/hk2014_2_5_r1/source/common/base/system/io/writer/buffered/hkbufferedstreamwriter.cpp
+//
+// Havok 2014.2.5 (stub_impl.md S4, serializer SA): a writer that buffers in front of another stream, or that writes
+// into a fixed memory block when it has none (a string block keeps its last byte for the terminator), from rfg.exe.
+// A full block makes the writer not ok.
+
+#include "volition/libmodules/havok/hk2014_2_5_r1/source/common/base/system/io/writer/buffered/hkbufferedstreamwriter.h"
+
+#include "volition/libmodules/havok/hk2014_2_5_r1/source/common/base/container/string/hkstring.h"
+#include "volition/libmodules/havok/hk2014_2_5_r1/source/common/base/memory/router/hkmemoryrouter.h"
+
+// the writer's reflection class (generated with the reflection data, stub_impl.md S4 SB)
+extern const hkClass hkBufferedStreamWriterClass;
+
+// 0x00CFE950: the buffer written to the stream until a write returns nothing; the count written (0 without a stream,
+// and the buffer then stays)
+int hkBufferedStreamWriter::flushBuffer()
+{
+    if (m_stream == nullptr)
+    {
+        return 0;
+    }
+    const int size = m_bufSize;
+    int written = 0;
+    while (written < size)
+    {
+        const int n = m_stream->write(m_buf + written, size - written);
+        written += n;
+        if (n == 0)
+        {
+            return written;
+        }
+    }
+    m_bufSize = 0;
+    return written;
+}
+
+// 0x00CFE9A0: the block is filled and flushed while the data does not fit; a short flush ends the write early
+int hkBufferedStreamWriter::write(const void* mem, int memSize)
+{
+    const char* p = (const char*)mem;
+    int left = memSize;
+    int space = m_bufCapacity - m_bufSize;
+    while (space < left)
+    {
+        hkString::memCpy(m_buf + m_bufSize, p, space);
+        m_bufSize += space;
+        const int full = m_bufSize;
+        p += space;
+        left -= space;
+        if (flushBuffer() != full)
+        {
+            return memSize - left;
+        }
+        space = m_bufCapacity - m_bufSize;
+    }
+    hkString::memCpy(m_buf + m_bufSize, p, left);
+    m_bufSize += left;
+    return memSize;
+}
+
+// 0x00CFEA20
+void hkBufferedStreamWriter::flush()
+{
+    flushBuffer();
+    if (m_stream != nullptr)
+    {
+        m_stream->flush();
+    }
+}
+
+// 0x00CFEA40
+hkBool hkBufferedStreamWriter::isOk() const
+{
+    if (m_stream != nullptr)
+    {
+        return m_stream->isOk();
+    }
+    return m_bufSize != m_bufCapacity;
+}
+
+// 0x00CFEA80
+hkBool hkBufferedStreamWriter::seekTellSupported() const
+{
+    if (m_stream != nullptr)
+    {
+        return m_stream->seekTellSupported();
+    }
+    return true;
+}
+
+// 0x00CFEAC0: in a memory block, past the capacity clamps and fails, before the start goes to the start and fails
+// (an unknown whence counts as before the start)
+hkResult hkBufferedStreamWriter::seek(int relOffset, hkStreamWriter::SeekWhence whence)
+{
+    if (m_stream != nullptr)
+    {
+        flushBuffer();
+        return m_stream->seek(relOffset, whence);
+    }
+    int absOffset = relOffset;
+    if (whence != STREAM_SET)
+    {
+        if (whence == STREAM_CUR)
+        {
+            absOffset = m_bufSize + relOffset;
+        }
+        else if (whence == STREAM_END)
+        {
+            absOffset = m_bufSize - relOffset;
+        }
+        else
+        {
+            absOffset = -1;
+        }
+    }
+    if (absOffset < 0)
+    {
+        m_bufSize = 0;
+        return HK_FAILURE;
+    }
+    const bool past = absOffset > m_bufCapacity;
+    m_bufSize = past ? m_bufCapacity : absOffset;
+    return past ? HK_FAILURE : HK_SUCCESS;
+}
+
+// 0x00CFEB50: the stream's position plus what is buffered
+int hkBufferedStreamWriter::tell() const
+{
+    if (m_stream == nullptr)
+    {
+        return m_bufSize;
+    }
+    const int t = m_stream->tell();
+    return t >= 0 ? m_bufSize + t : -1;
+}
+
+// 0x00CFEB80
+hkBool hkBufferedStreamWriter::isBuffered() const
+{
+    return true;
+}
+
+// 0x00CFEB90: a string block is zeroed and loses its last byte to the terminator
+hkBufferedStreamWriter::hkBufferedStreamWriter(void* mem, int memSize, hkBool memoryIsString)
+{
+    m_stream = nullptr;
+    m_buf = (char*)mem;
+    m_bufSize = 0;
+    m_bufCapacity = memoryIsString ? memSize - 1 : memSize;
+    m_ownBuffer = false;
+    if (memoryIsString)
+    {
+        hkString::memSet(mem, 0, memSize);
+    }
+}
+
+// 0x00CFEC50
+hkBufferedStreamWriter::~hkBufferedStreamWriter()
+{
+    flushBuffer();
+    if (m_stream != nullptr)
+    {
+        m_stream->removeReference();
+    }
+    if (m_ownBuffer)
+    {
+        hkMemoryRouter::alignedFree(hkMemoryRouter::getInstance().heap(), m_buf);
+    }
+}
+
+// 0x00CFECA0 (hkbufferedstreamwriter.h in rfg.pdb; here so the header needs no extern of the class)
+const hkClass* hkBufferedStreamWriter::getClassType() const
+{
+    return &hkBufferedStreamWriterClass;
+}
+
+// ---- reflection data, generated by tools/hdrgen/reflgen.py from rfg.exe (do not edit)
+#include "volition/libmodules/havok/hk2014_2_5_r1/source/common/base/reflection/hkclass.h"
+#include "volition/libmodules/havok/hk2014_2_5_r1/source/common/base/reflection/hkclassmember.h"
+#include "volition/libmodules/havok/hk2014_2_5_r1/source/common/base/reflection/hkinternalclassmember.h"
+
+//
+// Class hkBufferedStreamWriter
+//
+extern const hkClass hkBufferedStreamWriterClass;
+const hkClass hkBufferedStreamWriterClass(
+    "hkBufferedStreamWriter",
+    nullptr, // parent
+    28, // object size
+    nullptr,
+    0, // interfaces
+    nullptr,
+    0, // enums
+    nullptr,
+    0, // members
+    nullptr, // defaults
+    nullptr, // attributes
+    0, // flags
+    0 // version
+    );
+// ---- end of generated reflection data

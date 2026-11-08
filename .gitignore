@@ -1,0 +1,12 @@
+/*
+
+!/.gitignore
+
+!/cmake/
+!/external/
+!/lib/
+!/src/
+
+!/README.md
+!/deviations.md
+!/original_bugs.md

@@ -1,0 +1,153 @@
+// Original: volition/render_lib/code/pool_list.h
+//
+// pool_list<T>, a base_array with optional dynamic storage used as the object pool of every render_lib class
+// (ms_object_pool). Written by hand; the addresses are of the <rl_light*> instantiation.
+#pragma once
+
+#include "volition/vlib/code/util/varray.h"
+
+class mempool_base;
+
+// size 0x18
+template<typename T>
+class pool_list : public base_array<T>
+{
+public:
+    pool_list(); // <rl_light*> 0x00502930 (.h:21)
+    virtual ~pool_list(); // vtbl+0x00 <rl_light*> 0x00502950 (.h:28)
+    unsigned int get_min_used() const;
+    T remove_unsorted_return(int i); // <rl_light*> 0x00505940 (.h:40)
+    T remove_back(); // <rl_light*> 0x0051E030 (.h:48)
+    void concat(const pool_list<T>&, int, int);
+    void clear(); // <rl_light*> 0x00502980 (.h:62)
+    void init(T* data_ptr, int size, int num_existing_elements); // <rl_light*> 0x00502990 (.h:67)
+    void init_mempool(mempool_base&, int);
+    void init_dynamic(int count); // <rl_light*> 0x005029D0 (.h:80)
+    const T& operator[](unsigned int) const;
+    T& operator[](unsigned int);
+    const T& operator[](int) const;
+    T& operator[](int i); // <rl_light*> 0x004D51A0 (.h:88)
+
+private:
+    bool m_init_dynamic; // 0x10
+    unsigned int m_min_used; // 0x14
+};
+
+// template instance: void __thiscall pool_list<rl_terrain_occluder*>::pool_list<rl_terrain_occluder*>(); // 0x00504B40 (.h:21)
+// template instance: void __thiscall pool_list<rl_compiled_render_group*>::pool_list<rl_compiled_render_group*>(); // 0x00502570 (.h:21)
+// template instance: void __thiscall pool_list<rl_renderable_particles_instance_group*>::pool_list<rl_renderable_particles_instance_group*>(); // 0x005039D0 (.h:21)
+// template instance: void __thiscall pool_list<rl_renderable_particles_instance*>::pool_list<rl_renderable_particles_instance*>(); // 0x00503680 (.h:21)
+// template instance: void __thiscall pool_list<rl_mesh_instance*>::pool_list<rl_mesh_instance*>(); // 0x005040A0 (.h:21)
+// template instance: void __thiscall pool_list<rl_particle_parametric>::pool_list<rl_particle_parametric>(); // 0x00503850 (.h:21)
+// template instance: void __thiscall pool_list<rl_mesh_instance_stream*>::pool_list<rl_mesh_instance_stream*>(); // 0x005022D0 (.h:21)
+// template instance: void __thiscall pool_list<rl_light*>::pool_list<rl_light*>(); // 0x00502930 (.h:21)
+// template instance: void __thiscall pool_list<rl_mesh_recompile_parameters*>::pool_list<rl_mesh_recompile_parameters*>(); // 0x005046A0 (.h:21)
+// template instance: void __thiscall pool_list<rl_quadtree_sector*>::pool_list<rl_quadtree_sector*>(); // 0x005047C0 (.h:21)
+// template instance: void __thiscall pool_list<vfx_particle_system_filter_instance*>::pool_list<vfx_particle_system_filter_instance*>(); // 0x00CAA1A0 (.h:21)
+// template instance: void __thiscall pool_list<vfx_particle_system_emitter_instance*>::pool_list<vfx_particle_system_emitter_instance*>(); // 0x00CAA730 (.h:21)
+// template instance: void __thiscall pool_list<vfx_particle_system_filter_orientor*>::pool_list<vfx_particle_system_filter_orientor*>(); // 0x00CAA570 (.h:21)
+// template instance: void __thiscall pool_list<rl_planar_decal*>::pool_list<rl_planar_decal*>(); // 0x00502D80 (.h:21)
+// template instance: void __thiscall pool_list<vfx_particle_system_emitter_point*>::pool_list<vfx_particle_system_emitter_point*>(); // 0x00CA9E20 (.h:21)
+// template instance: void __thiscall pool_list<rl_occluder*>::pool_list<rl_occluder*>(); // 0x00502AD0 (.h:21)
+// template instance: void __thiscall pool_list<rl_layered_material*>::pool_list<rl_layered_material*>(); // 0x00504420 (.h:21)
+// template instance: void __thiscall pool_list<rl_skirt_mesh_instance*>::pool_list<rl_skirt_mesh_instance*>(); // 0x00504A60 (.h:21)
+// template instance: void __thiscall pool_list<vfx_renderable_filter_instance*>::pool_list<vfx_renderable_filter_instance*>(); // 0x00CAA650 (.h:21)
+// template instance: void __thiscall pool_list<rl_batched_pass*>::pool_list<rl_batched_pass*>(); // 0x005023B0 (.h:21)
+// template instance: void __thiscall pool_list<et_sized_native_pointer<vfx_particle_system_emitter> >::pool_list<et_sized_native_pointer<vfx_particle_system_emitter> >(); // 0x00CA98C0 (.h:21)
+// template instance: void __thiscall pool_list<rl_low_lod_mesh_instance*>::pool_list<rl_low_lod_mesh_instance*>(); // 0x00504500 (.h:21)
+// template instance: void __thiscall pool_list<vfx_particle_system_emitter_box*>::pool_list<vfx_particle_system_emitter_box*>(); // 0x00CA9FE0 (.h:21)
+// template instance: void __thiscall pool_list<rl_scene_entity*>::pool_list<rl_scene_entity*>(); // 0x005030B0 (.h:21)
+// template instance: void __thiscall pool_list<rl_mesh*>::pool_list<rl_mesh*>(); // 0x00502490 (.h:21)
+// template instance: void __thiscall pool_list<vfx_effect_template*>::pool_list<vfx_effect_template*>(); // 0x00CA9A90 (.h:21)
+// template instance: void __thiscall pool_list<vfx_particle_system_emitter_cylinder*>::pool_list<vfx_particle_system_emitter_cylinder*>(); // 0x00CAA0C0 (.h:21)
+// template instance: void __thiscall pool_list<rl_renderable_instance*>::pool_list<rl_renderable_instance*>(); // 0x00502FC0 (.h:21)
+// template instance: void __thiscall pool_list<rl_clone_mesh_pool*>::pool_list<rl_clone_mesh_pool*>(); // 0x00502690 (.h:21)
+// template instance: void __thiscall pool_list<rl_material_map*>::pool_list<rl_material_map*>(); // 0x00502850 (.h:21)
+// template instance: void __thiscall pool_list<rl_renderable_particles*>::pool_list<rl_renderable_particles*>(); // 0x005035A0 (.h:21)
+// template instance: void __thiscall pool_list<rl_fp_kdtree*>::pool_list<rl_fp_kdtree*>(); // 0x00502BC0 (.h:21)
+// template instance: void __thiscall pool_list<rl_height_mesh_instance*>::pool_list<rl_height_mesh_instance*>(); // 0x00504260 (.h:21)
+// template instance: void __thiscall pool_list<vfx_particle_system_filter_wind*>::pool_list<vfx_particle_system_filter_wind*>(); // 0x00CA9950 (.h:21)
+// template instance: void __thiscall pool_list<rl_deformable_mesh_instance*>::pool_list<rl_deformable_mesh_instance*>(); // 0x00503AB0 (.h:21)
+// template instance: void __thiscall pool_list<rl_corona_instance*>::pool_list<rl_corona_instance*>(); // 0x00503490 (.h:21)
+// template instance: void __thiscall pool_list<vfx_particle_system_emitter_sphere*>::pool_list<vfx_particle_system_emitter_sphere*>(); // 0x00CA9F00 (.h:21)
+// template instance: void __thiscall pool_list<rl_skin_instance*>::pool_list<rl_skin_instance*>(); // 0x005048A0 (.h:21)
+// template instance: void __thiscall pool_list<rl_morph_container*>::pool_list<rl_morph_container*>(); // 0x00503B90 (.h:21)
+// template instance: void __thiscall pool_list<rl_shader*>::pool_list<rl_shader*>(); // 0x005021F0 (.h:21)
+// template instance: void __thiscall pool_list<rl_fog_volume*>::pool_list<rl_fog_volume*>(); // 0x00504180 (.h:21)
+// template instance: void __thiscall pool_list<rl_buffered_command>::pool_list<rl_buffered_command>(); // 0x00504050 (.h:21)
+// template instance: void __thiscall pool_list<rl_morph_instance*>::pool_list<rl_morph_instance*>(); // 0x00503DB0 (.h:21)
+// template instance: void __thiscall pool_list<rl_cached_dyn_texture*>::pool_list<rl_cached_dyn_texture*>(); // 0x005020C0 (.h:21)
+// template instance: void __thiscall pool_list<rl_compound_mesh_instance*>::pool_list<rl_compound_mesh_instance*>(); // 0x00502CA0 (.h:21)
+// template instance: void __thiscall pool_list<rl_dynamic_morph_instance*>::pool_list<rl_dynamic_morph_instance*>(); // 0x00503CB0 (.h:21)
+// template instance: void __thiscall pool_list<rl_destroyable_model_instance*>::pool_list<rl_destroyable_model_instance*>(); // 0x00503F70 (.h:21)
+// template instance: void __thiscall pool_list<rl_landmark_lod_mesh_instance*>::pool_list<rl_landmark_lod_mesh_instance*>(); // 0x00504340 (.h:21)
+// template instance: void __thiscall pool_list<rl_skybox_renderable_instance*>::pool_list<rl_skybox_renderable_instance*>(); // 0x00504980 (.h:21)
+// template instance: void __thiscall pool_list<vfx_particle_system_emitter_plane*>::pool_list<vfx_particle_system_emitter_plane*>(); // 0x00CA9D40 (.h:21)
+// template instance: void __thiscall pool_list<vfx_particle_system_filter_magnet*>::pool_list<vfx_particle_system_filter_magnet*>(); // 0x00CAA2D0 (.h:21)
+// template instance: void __thiscall pool_list<vfx_particle_system_filter_vortex*>::pool_list<vfx_particle_system_filter_vortex*>(); // 0x00CAA490 (.h:21)
+// template instance: void __thiscall pool_list<VFX::particle_system_emitter_instance*>::pool_list<VFX::particle_system_emitter_instance*>(); // 0x00CAA850 (.h:21)
+// template instance: void __thiscall pool_list<vfx_particle_system_filter_turbulence*>::pool_list<vfx_particle_system_filter_turbulence*>(); // 0x00CAA3B0 (.h:21)
+// template instance: void __thiscall pool_list<rl_destroyable_model_instance_shared_base*>::pool_list<rl_destroyable_model_instance_shared_base*>(); // 0x00503E90 (.h:21)
+// template instance: void __thiscall pool_list<rl_particle_iterative>::pool_list<rl_particle_iterative>(); // 0x00503790 (.h:21)
+// template instance: void __thiscall pool_list<rl_clone_mesh_instance*>::pool_list<rl_clone_mesh_instance*>(); // 0x00502770 (.h:21)
+// template instance: void __thiscall pool_list<vfx_effect*>::pool_list<vfx_effect*>(); // 0x00CA9C00 (.h:21)
+// template instance: virtual void __thiscall pool_list<et_sized_native_pointer<vfx_particle_system_emitter> >::~pool_list<et_sized_native_pointer<vfx_particle_system_emitter> >(); // 0x00CA98E0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_particle_iterative>::~pool_list<rl_particle_iterative>(); // 0x005037B0 (.h:28)
+// template instance: virtual void __thiscall pool_list<VFX::particle_system_emitter_instance*>::~pool_list<VFX::particle_system_emitter_instance*>(); // 0x00CAA870 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_light*>::~pool_list<rl_light*>(); // 0x00502950 (.h:28)
+// template instance: virtual void __thiscall pool_list<vfx_particle_system_emitter_box*>::~pool_list<vfx_particle_system_emitter_box*>(); // 0x00CAA000 (.h:28)
+// template instance: virtual void __thiscall pool_list<vfx_particle_system_filter_orientor*>::~pool_list<vfx_particle_system_filter_orientor*>(); // 0x00CAA590 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_shader*>::~pool_list<rl_shader*>(); // 0x00502210 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_clone_mesh_pool*>::~pool_list<rl_clone_mesh_pool*>(); // 0x005026B0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_fp_kdtree*>::~pool_list<rl_fp_kdtree*>(); // 0x00502BE0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_height_mesh_instance*>::~pool_list<rl_height_mesh_instance*>(); // 0x00504280 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_renderable_instance*>::~pool_list<rl_renderable_instance*>(); // 0x00502FF0 (.h:28)
+// template instance: virtual void __thiscall pool_list<vfx_particle_system_emitter_plane*>::~pool_list<vfx_particle_system_emitter_plane*>(); // 0x00CA9D60 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_layered_material*>::~pool_list<rl_layered_material*>(); // 0x00504440 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_clone_mesh_instance*>::~pool_list<rl_clone_mesh_instance*>(); // 0x00502790 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_compound_mesh_instance*>::~pool_list<rl_compound_mesh_instance*>(); // 0x00502CC0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_skin_instance*>::~pool_list<rl_skin_instance*>(); // 0x005048C0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_skybox_renderable_instance*>::~pool_list<rl_skybox_renderable_instance*>(); // 0x005049A0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_mesh_instance*>::~pool_list<rl_mesh_instance*>(); // 0x005040C0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_renderable_particles*>::~pool_list<rl_renderable_particles*>(); // 0x005035C0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_morph_instance*>::~pool_list<rl_morph_instance*>(); // 0x00503DD0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_particle_parametric>::~pool_list<rl_particle_parametric>(); // 0x00503870 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_compiled_render_group*>::~pool_list<rl_compiled_render_group*>(); // 0x00502590 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_fog_volume*>::~pool_list<rl_fog_volume*>(); // 0x005041A0 (.h:28)
+// template instance: virtual void __thiscall pool_list<vfx_effect*>::~pool_list<vfx_effect*>(); // 0x00CA9C20 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_material_map*>::~pool_list<rl_material_map*>(); // 0x00502870 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_scene_entity*>::~pool_list<rl_scene_entity*>(); // 0x005030D0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_cached_dyn_texture*>::~pool_list<rl_cached_dyn_texture*>(); // 0x005020E0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_renderable_particles_instance_group*>::~pool_list<rl_renderable_particles_instance_group*>(); // 0x005039F0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_batched_pass*>::~pool_list<rl_batched_pass*>(); // 0x005023D0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_planar_decal*>::~pool_list<rl_planar_decal*>(); // 0x00502DA0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_low_lod_mesh_instance*>::~pool_list<rl_low_lod_mesh_instance*>(); // 0x00504520 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_mesh_recompile_parameters*>::~pool_list<rl_mesh_recompile_parameters*>(); // 0x005046C0 (.h:28)
+// template instance: virtual void __thiscall pool_list<vfx_particle_system_filter_instance*>::~pool_list<vfx_particle_system_filter_instance*>(); // 0x00CAA1C0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_renderable_particles_instance*>::~pool_list<rl_renderable_particles_instance*>(); // 0x005036A0 (.h:28)
+// template instance: virtual void __thiscall pool_list<vfx_particle_system_emitter_cylinder*>::~pool_list<vfx_particle_system_emitter_cylinder*>(); // 0x00CAA0E0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_destroyable_model_instance*>::~pool_list<rl_destroyable_model_instance*>(); // 0x00503F90 (.h:28)
+// template instance: virtual void __thiscall pool_list<vfx_renderable_filter_instance*>::~pool_list<vfx_renderable_filter_instance*>(); // 0x00CAA670 (.h:28)
+// template instance: virtual void __thiscall pool_list<vfx_particle_system_emitter_instance*>::~pool_list<vfx_particle_system_emitter_instance*>(); // 0x00CAA750 (.h:28)
+// template instance: virtual void __thiscall pool_list<vfx_particle_system_filter_vortex*>::~pool_list<vfx_particle_system_filter_vortex*>(); // 0x00CAA4B0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_deformable_mesh_instance*>::~pool_list<rl_deformable_mesh_instance*>(); // 0x00503AD0 (.h:28)
+// template instance: virtual void __thiscall pool_list<vfx_effect_template*>::~pool_list<vfx_effect_template*>(); // 0x00CA9AB0 (.h:28)
+// template instance: virtual void __thiscall pool_list<vfx_particle_system_filter_wind*>::~pool_list<vfx_particle_system_filter_wind*>(); // 0x00CA9970 (.h:28)
+// template instance: virtual void __thiscall pool_list<vfx_particle_system_filter_turbulence*>::~pool_list<vfx_particle_system_filter_turbulence*>(); // 0x00CAA3D0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_dynamic_morph_instance*>::~pool_list<rl_dynamic_morph_instance*>(); // 0x00503CD0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_occluder*>::~pool_list<rl_occluder*>(); // 0x00502AF0 (.h:28)
+// template instance: virtual void __thiscall pool_list<vfx_particle_system_emitter_sphere*>::~pool_list<vfx_particle_system_emitter_sphere*>(); // 0x00CA9F20 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_mesh_instance_stream*>::~pool_list<rl_mesh_instance_stream*>(); // 0x005022F0 (.h:28)
+// template instance: virtual void __thiscall pool_list<vfx_particle_system_filter_magnet*>::~pool_list<vfx_particle_system_filter_magnet*>(); // 0x00CAA2F0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_corona_instance*>::~pool_list<rl_corona_instance*>(); // 0x005034B0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_quadtree_sector*>::~pool_list<rl_quadtree_sector*>(); // 0x005047E0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_buffered_command>::~pool_list<rl_buffered_command>(); // 0x00504070 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_mesh*>::~pool_list<rl_mesh*>(); // 0x005024B0 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_skirt_mesh_instance*>::~pool_list<rl_skirt_mesh_instance*>(); // 0x00504A80 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_landmark_lod_mesh_instance*>::~pool_list<rl_landmark_lod_mesh_instance*>(); // 0x00504360 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_destroyable_model_instance_shared_base*>::~pool_list<rl_destroyable_model_instance_shared_base*>(); // 0x00503EB0 (.h:28)
+// template instance: virtual void __thiscall pool_list<vfx_particle_system_emitter_point*>::~pool_list<vfx_particle_system_emitter_point*>(); // 0x00CA9E40 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_terrain_occluder*>::~pool_list<rl_terrain_occluder*>(); // 0x00504B60 (.h:28)
+// template instance: virtual void __thiscall pool_list<rl_morph_container*>::~pool_list<rl_morph_container*>(); // 0x00503BB0 (.h:28)
+
+#include "volition/render_lib/code/pool_list.inl"

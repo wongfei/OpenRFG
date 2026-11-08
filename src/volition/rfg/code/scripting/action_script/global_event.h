@@ -1,0 +1,118 @@
+// Original: volition/rfg/code/scripting/action_script/global_event.h
+//
+// Global events: the event types and results, event_data (the base of the event payloads in global_event_data.h) and
+// notify_info (a registered callback with its data).
+#pragma once
+
+enum event_result
+{
+    EVENT_IGNORED = 0,
+    EVENT_HANDLED = 1,
+    EVENT_OK = 2,
+};
+
+enum event_type
+{
+    EVENT_UNDEFINED = -1,
+    EVENT_BUILDING_DAMAGED = 0,
+    EVENT_BUILDING_DAMAGED_BY_EXPLOSION = 1,
+    EVENT_BUILDING_DESTROYED = 2,
+    EVENT_SALVAGE_CREATED = 3,
+    EVENT_WEAPON_ACQUIRED = 4,
+    EVENT_AMMO_ACQUIRED = 5,
+    EVENT_ITEM_ACQUIRED = 6,
+    EVENT_RAID_COMPLETE = 7,
+    EVENT_ACTIVITY_STATE_CHANGE = 8,
+    EVENT_RAID_STATE_CHANGE = 9,
+    EVENT_HOUSE_ARREST_STATUS = 10,
+    EVENT_TURRET_DESTROYED = 11,
+    EVENT_VEHICLE_DESTROYED = 12,
+    EVENT_HUMAN_DEAD = 13,
+    EVENT_DIALOGUE_FINISHED = 14,
+    EVENT_EDF_CONTROL_LOWERED = 15,
+    EVENT_CIVILIAN_MORALE_LOWERED = 16,
+    EVENT_CIVILIAN_MORALE_RAISED = 17,
+    EVENT_PLAYER_ENTER_TRIGGER_REGION = 18,
+    EVENT_PLAYER_EXIT_TRIGGER_REGION = 19,
+    EVENT_OBJECT_ENTER_TRIGGER_REGION = 20,
+    EVENT_OBJECT_EXIT_TRIGGER_REGION = 21,
+    EVENT_PLAYER_FAIL_TRIGGER_REGION_RESTRICTION = 22,
+    EVENT_PLAYER_ENTER_RESTRICTED_AREA = 23,
+    EVENT_PLAYER_EXIT_RESTRICTED_AREA = 24,
+    EVENT_MISSION_SUCCESS = 25,
+    EVENT_MISSION_FAILURE = 26,
+    EVENT_TIMER_ELAPSED = 27,
+    EVENT_OBJECTIVE_COMPLETE = 28,
+    EVENT_MISSION_OBJECTIVE_COMPLETE = 29,
+    EVENT_MOVER_STREAM_IN = 30,
+    EVENT_RECRUITMENT = 31,
+    EVENT_ALERT_LEVEL_CHANGED = 32,
+    EVENT_SQUAD_KILLED = 33,
+    EVENT_SQUAD_MEMBER_KILLED = 34,
+    EVENT_PLAYER_KILLS_VEHICLE = 35,
+    EVENT_PLAYER_KILLS_HUMAN = 36,
+    EVENT_ROAD_BECOMES_BLOCKED = 37,
+    EVENT_BRIDGE_BECOMES_UNUSABLE = 38,
+    EVENT_PLAYER_KILLS_VEHICLE_FROM_VEHICLE = 39,
+    EVENT_VEHICLE_DAMAGE = 40,
+    EVENT_PLAYER_ENTERS_VEHICLE = 41,
+    EVENT_PLAYER_EXITS_VEHICLE = 42,
+    EVENT_NPC_ENTERS_VEHICLE = 43,
+    EVENT_MISSION_VRAIL_COMPLETE = 44,
+    EVENT_PLAYER_UNDER_ATTACK = 45,
+    EVENT_VEHICLE_UNDER_ATTACK = 46,
+    EVENT_PLAYER_DAMAGED_BY_EXPLOSION = 47,
+    EVENT_CONT_ATTACK_SQUAD_REACHED_END = 48,
+    EVENT_PATROL_SQUAD_REACHED_NODE = 49,
+    EVENT_WALKER_MOUNT_VEHICLE = 50,
+    EVENT_HUMAN_USING_ACTION_NODE = 51,
+    EVENT_SQUAD_MEMBERS_SPAWNED = 52,
+    EVENT_PLAYER_GETS_SALVAGE = 53,
+    EVENT_SATELLITE_REACHES_TARGET = 54,
+    EVENT_MOVER_HUMAN_SPECIAL_COLLISION = 55,
+    EVENT_PLAYER_ENTERS_CRITICAL_AREA = 56,
+    EVENT_SQUAD_MEMBERS_DESPANED = 57,
+    EVENT_NPC_DESPANED = 58,
+    EVENT_PLAYER_FIRES_WEAPON = 59,
+    EVENT_HUMAN_STOPPED_BEING_RENDERED = 60,
+    EVENT_USER_DEFINED = 61,
+    NUM_EVENT_TYPES = 62,
+};
+
+// size 0x4
+struct event_data
+{
+    event_type get_type() const; // 0x007539B0 (.h:111)
+protected:
+    event_data(event_type in_type); // 0x005DBDA0 (.h:115)
+
+private:
+    const event_type type; // 0x00
+};
+
+// size 0xC
+struct notify_info
+{
+    notify_info(); // 0x007539C0 (.h:135)
+    void init(); // 0x00B1F5E0 (.h:144)
+
+    event_type type; // 0x00
+    event_result (*callback)(const event_data&, notify_info*); // 0x04
+    void* data; // 0x08
+};
+
+// 0x007539C0 (.h:135)
+inline notify_info::notify_info()
+    : type(EVENT_UNDEFINED)
+    , callback(nullptr)
+    , data(nullptr)
+{
+}
+
+// 0x00B1F5E0 (.h:144), the object pool's per-element initializer
+inline void notify_info::init()
+{
+    type = EVENT_UNDEFINED;
+    callback = nullptr;
+    data = nullptr;
+}

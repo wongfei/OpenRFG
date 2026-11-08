@@ -1,0 +1,26 @@
+// Original: volition/rfg/code/spawn/spawn_enums.h
+//
+// The spawn slot types of the spawn resource manager (spawn_resource_manager.h). Placement inferred.
+#pragma once
+
+enum spawn_slot_types
+{
+    SPAWN_SLOT_NONE = 0,
+    SPAWN_SLOT_MISSION = 1,
+    SPAWN_SLOT_MISSION_ALLOCATED = 2,
+    SPAWN_SLOT_HUMAN_PLAYER = 3,
+    SPAWN_SLOT_HUMAN_GUERRILLA = 4,
+    SPAWN_SLOT_HUMAN_EDF = 5,
+    SPAWN_SLOT_HUMAN_MARAUDER = 6,
+    SPAWN_SLOT_HUMAN_ACTIVITY = 7,
+    SPAWN_SLOT_HUMAN_SPECIAL = 8,
+    SPAWN_SLOT_HUMAN_SAFEHOUSE_VIP = 9,
+    SPAWN_SLOT_VEHICLE_PLAYER = 10,
+    SPAWN_SLOT_VEHICLE_GUERRILLA = 11,
+    SPAWN_SLOT_VEHICLE_EDF_APC = 12,
+    SPAWN_SLOT_VEHICLE_EDF_REINFORCEMENT = 13,
+    SPAWN_SLOT_VEHICLE_ACTIVITY = 14,
+    SPAWN_SLOT_VEHICLE_SPECIAL = 15,
+    SPAWN_SLOT_VEHICLE_MULTI_PURPOSE = 16,
+    NUM_SPAWN_SLOT_TYPES = 17,
+};

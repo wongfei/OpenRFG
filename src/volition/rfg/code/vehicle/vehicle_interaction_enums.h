@@ -1,0 +1,70 @@
+// Original: volition/rfg/code/vehicle/vehicle_interaction_enums.h
+//
+// Vehicle interaction (enter, exit, hijack) states. Placement inferred.
+#pragma once
+
+enum vi_interaction
+{
+    VI_INTERACTION_UNDEFINED = -1,
+    VI_INTERACTION_NONE = 0,
+    VI_INTERACTION_RESERVE = 1,
+    VI_INTERACTION_ENTER = 2,
+    VI_INTERACTION_EXIT = 3,
+    VI_INTERACTION_RIDE = 4,
+    NUM_VI_INTERACTIONS = 5,
+};
+
+enum vi_state_of_logic
+{
+    VI_STATE_NONE = 0,
+    VI_STATE_RESERVED_SEAT = 1,
+    VI_STATE_ENTER_PATHFIND = 2,
+    VI_STATE_ENTER_TELEPORT_WAIT = 3,
+    VI_STATE_ENTER_STREAMING_STALL = 4,
+    VI_STATE_ENTER_COMPLETE = 5,
+    VI_STATE_EXIT_PATHFIND = 6,
+    VI_STATE_EXIT_EJECT = 7,
+    VI_STATE_EXIT_COMPLETE = 8,
+    NUM_VI_STATES = 9,
+};
+
+enum vi_state_of_anim
+{
+    VI_STATE_ANIM_NONE = 0,
+    VI_STATE_ENTER_PATH_TO_DOOR = 1,
+    VI_STATE_SHARED_WAIT_WAYPOINT_CLEAR = 2,
+    VI_STATE_SHARED_OPEN_DOOR = 3,
+    VI_STATE_SHARED_TRANSITION = 4,
+    VI_STATE_RIDE_DEFAULT = 5,
+    VI_STATE_RIDE_CLOSE_DOOR = 6,
+    VI_STATE_RIDE_CUSTOM_ANIM = 7,
+    NUM_VI_STATES_OF_ANIM = 8,
+};
+
+enum vi_correction_type
+{
+    VI_POS_CORRECTION_NONE = 0,
+    VI_POS_CORRECTION_VEHICLE_BASH_POS = 1,
+    VI_POS_CORRECTION_VEHICLE_VELOCITY = 2,
+    VI_POS_CORRECTION_HUMAN_PROJECTILE = 3,
+    NUM_VI_POS_CORRECTION_TYPES = 4,
+};
+
+enum vi_door_state
+{
+    VI_DOOR_STATE_CLOSED = 0,
+    VI_DOOR_STATE_CLOSED_CLIMBING = 1,
+    VI_DOOR_STATE_CLOSING = 2,
+    VI_DOOR_STATE_OPEN = 3,
+    VI_DOOR_STATE_OPENING = 4,
+    VI_DOOR_STATE_OPEN_FOR_GUNNER = 5,
+    NUM_VI_DOOR_STATES = 6,
+};
+
+enum vi_seat_selection_method
+{
+    VI_SEAT_SELECTION_METHOD_NONE = -1,
+    VI_SEAT_SELECTION_METHOD_SPECIFIED = 0,
+    VI_SEAT_SELECTION_METHOD_BEST = 1,
+    NUM_VI_SEAT_SELECTION_METHODS = 2,
+};
