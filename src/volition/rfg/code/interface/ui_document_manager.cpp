@@ -3461,7 +3461,9 @@ void ui_set_vint_object_visible(vint_object_base* obj, bool visible)
     }
 }
 
-// The cloned menu item object's name: "name" for the first, "name<index>" after (isOneBased is not used).
+// The cloned menu item object's name: "name" for the first, "name<index + 1>" after. The documents' Lua numbers its
+// clones from 1 and leaves the first object as it is ("text_group", "text_group2", ...: rfg_ui_main_menu.lua
+// mm_group_add), so there is no "name1". rfg.exe inlines this with ui_menu_get_cloned_name's isOneBased = true.
 static void ui_menu_item_object_name(char* result, unsigned int size, const char* name, int index)
 {
     if (index == 0)
@@ -3470,7 +3472,7 @@ static void ui_menu_item_object_name(char* result, unsigned int size, const char
     }
     else
     {
-        keen::formatString(result, size, "%s%d", name, index);
+        keen::formatString(result, size, "%s%d", name, index + 1);
     }
 }
 
@@ -3694,7 +3696,14 @@ void ui_menu_handle_mouseover(int menu_handle, int index)
 // 0x0089C6B0 (:4509)
 void ui_menu_get_cloned_name(char* result, unsigned int max_length, const char* initial_name, int index, bool isOneBased)
 {
-    ui_menu_item_object_name(result, max_length, initial_name, index);
+    if (index == 0)
+    {
+        keen::formatString(result, max_length, "%s", initial_name);
+    }
+    else
+    {
+        keen::formatString(result, max_length, "%s%d", initial_name, index + (isOneBased ? 1 : 0));
+    }
 }
 
 // 0x0089C700 (:4519)
