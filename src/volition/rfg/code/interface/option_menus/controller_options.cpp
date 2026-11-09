@@ -732,7 +732,8 @@ static bool controller_options_process_mouse_tab_input()
     return true;
 }
 
-// The spreadsheet row object's name: the group name, then numbered from the second row on.
+// The spreadsheet row object's name: the group name, then "<name><row + 1>" from the second row on. The document's Lua
+// numbers its clones from 1 ("row_group", "row_group2", ...: rfg_ui_controls_pc.lua add_row), so there is no "row_group1".
 static void controller_options_row_object_name(char* name, int row)
 {
     if (row == 0)
@@ -741,7 +742,7 @@ static void controller_options_row_object_name(char* name, int row)
     }
     else
     {
-        keen::formatString(name, 0x100, "%s%d", cConfig_row_group_name, row);
+        keen::formatString(name, 0x100, "%s%d", cConfig_row_group_name, row + 1);
     }
 }
 
