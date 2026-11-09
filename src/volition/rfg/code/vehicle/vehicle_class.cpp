@@ -2955,9 +2955,10 @@ void vehicle_process_explosion_hit(vehicle* target, human* attacker, object* sou
     }
     if (player_inside) {
         const float scale = p_explosion_info != NULL ? p_explosion_info->player_veh_damage_mult : 1.0f;
-        damage = (unsigned int)(long long)((float)damage * scale);
+        damage = (unsigned int)(long long)((double)damage * (double)scale); // x87 product in rfg.exe, truncated
     }
-    vehicle_apply_damage(target, source, w_info, DBT_EXPLOSION, &explosion_pos, NULL, radius, damage, &damage_velocity, false);
+    // The human attacker, not the source: the source is the projectile (usually freed by now) or the exploding object.
+    vehicle_apply_damage(target, attacker, w_info, DBT_EXPLOSION, &explosion_pos, NULL, radius, damage, &damage_velocity, false);
 }
 
 // 0x00B650E0 (:6117)
@@ -3767,7 +3768,7 @@ bool vehicle_apply_damage(vehicle* vp, object* attacker, const weapon_info* atta
     player* local = player_get_local_player();
     if (0 < damage_to_apply) {
         if (local->vehicle_handle != vp->get_handle() && (attacker == NULL || attacker->get_sub_type() == OT_SUB_HUMAN_NPC)) {
-            damage_to_apply = (int)((float)damage_to_apply * Damage_multiplier_npc_vehicle);
+            damage_to_apply = (int)((double)(float)damage_to_apply * (double)Damage_multiplier_npc_vehicle); // double product in rfg.exe
         }
         // only the player can hurt a courier
         human* driver = vehicle_passenger_in_seat(vp->get_handle(), VSI_DRIVER);
@@ -3818,7 +3819,7 @@ bool vehicle_apply_damage(vehicle* vp, object* attacker, const weapon_info* atta
     }
     if (local != NULL) {
         if (local->vehicle_handle == vp->get_handle()) {
-            damage_to_apply = (int)((float)damage_to_apply * difficulty_get_value(DIFFICULTY_PLAYER_VEHICLE_DAMAGE, NUM_DIFFICULTY_LEVELS));
+            damage_to_apply = (int)((double)(float)damage_to_apply * (double)difficulty_get_value(DIFFICULTY_PLAYER_VEHICLE_DAMAGE, NUM_DIFFICULTY_LEVELS)); // x87 product in rfg.exe
             if (stats_cheat_enabled(CHEATS_SUPER_TOUGHNESS)) {
                 damage_to_apply = (int)((double)damage_to_apply * 0.25);
             }
@@ -3831,7 +3832,7 @@ bool vehicle_apply_damage(vehicle* vp, object* attacker, const weapon_info* atta
             }
             const human_teams team = occupant != NULL ? occupant->current_team : HUMAN_TEAM_NONE;
             if (!human_teams_are_friendly(local->current_team, team)) {
-                damage_to_apply = (int)((float)damage_to_apply * difficulty_get_value(DIFFICULTY_ENEMY_VEHICLE_DAMAGE, NUM_DIFFICULTY_LEVELS));
+                damage_to_apply = (int)((double)(float)damage_to_apply * (double)difficulty_get_value(DIFFICULTY_ENEMY_VEHICLE_DAMAGE, NUM_DIFFICULTY_LEVELS)); // x87 product in rfg.exe
             }
         }
     }
