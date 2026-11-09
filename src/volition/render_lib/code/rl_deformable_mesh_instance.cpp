@@ -129,6 +129,23 @@ void rl_deformable_mesh_instance::render_for_deferred(rl_renderer& renderer, rl_
     rl_deform_end_render(m_morph_instance_p, renderer);
 }
 
+// Not in rfg.exe (its vtbl+0x0C here is rl_compound_mesh_instance::on_visible_for_frame).
+// Deviation: the frame's dent weights are uploaded from the visibility pass, on the main thread's immediate context, as
+// rl_skin_instance::on_visible_for_frame does for its face morphs. rfg.exe uploads them from the first draw of the frame,
+// and that draw races: scene part 2 records its base pass on a deferred context while part 1 draws the depth pre-pass on
+// the immediate one. When part 2 wins and the range is not at offset 0 (face morphs or another vehicle came first) it
+// maps WRITE_NO_OVERWRITE on a deferred context that has not discarded the buffer, which D3D11 refuses
+// (DXGI_ERROR_INVALID_CALL). The instance then draws undented for the frame, against a pre-pass that may have drawn it
+// dented, and the base pass's equal depth test leaves holes: the dented and undented shapes flicker.
+void rl_deformable_mesh_instance::on_visible_for_frame(rl_renderer& renderer)
+{
+    rl_compound_mesh_instance::on_visible_for_frame(renderer);
+    if (m_morph_instance_p != nullptr)
+    {
+        m_morph_instance_p->build_frame_weights(renderer);
+    }
+}
+
 // 0x0050C8D0 (:348)
 void rl_deformable_mesh_instance::set_shader_types(rl_renderer& renderer)
 {

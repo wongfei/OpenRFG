@@ -34,6 +34,7 @@ public:
     static rl_deformable_mesh_instance* create(); // 0x0054E6C0 (:226)
     static bool can_create(); // 0x004E4090 (:226)
     virtual void release(); // vtbl+0x04 0x00539730 (:226)
+    virtual void on_visible_for_frame(rl_renderer& renderer); // vtbl+0x0C, port deviation (see the .cpp)
     virtual void render(rl_renderer& renderer, rl_camera& camera, unsigned int flags); // vtbl+0x10 0x005397B0 (:272)
     virtual void render_for_deferred(rl_renderer& renderer, rl_camera& camera, unsigned int def_id, unsigned int flags); // vtbl+0x14 0x00539870 (:288)
     virtual void render_decals(rl_renderer& renderer, int num_decals, rl_decal** decal_list_p); // vtbl+0x40 0x00539930 (:333)
