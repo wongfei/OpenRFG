@@ -19,6 +19,11 @@ set(MAIN_SOURCES
     ${OPENRFG_STUBS_COMMON})
 
 add_executable(OpenRFG WIN32 main_hooks.cpp main_game_trace.cpp main_ui_command_line.cpp ${MAIN_SOURCES})
+# The Windows resources of rfg.exe (window icon 101, the framework's message texts). They belong to the executable:
+# the program loads them from its own module, and a static library would not carry them into the link.
+target_sources(OpenRFG PRIVATE
+    ../game/assets/global/applicationicon.rc
+    ../library/modules/runtime/gameframework/sources/win32/gameframeworklocatexts.rc)
 # The order matters. stub_impl.md S8: the vehicles. UI.md UI3: the original UI (rfg_ui, public OPENRFG_UI).
 # VFX.md 2.6, SFX.md 2.6: the effect and audio systems before rfg_render. stub_impl.md S2: NVIDIA
 # Highlights.

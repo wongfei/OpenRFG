@@ -5,8 +5,8 @@
 // procedure), the message pump, the display (keen graphics on the window) and the platform queries.
 //
 // Deviation: the framework's message boxes are
-// commented out and replaced by log lines; their string table text is empty anyway, because rfg.exe's string table is
-// not linked in (gameframework.cpp's loadFrameworkMessage, handleFatalError).
+// commented out and replaced by log lines, which carry the string table text of gameframeworklocatexts.rc
+// (gameframework.cpp's loadFrameworkMessage, handleFatalError).
 
 #include "keen/gameframework/gameframework.hpp"
 #include "game/build/win32/steam/master/generated_sources/version.hpp"
@@ -301,7 +301,7 @@ static void handleFatalError(EXCEPTION_POINTERS* pExceptionPointers)
 {
     WCHAR message[4048];
     // Magic number: the first string table id of the crash question (one entry per language family, as the framework's
-    // other messages). Deviation: the buffer is emptied first (no string table, see the file comment).
+    // other messages). Deviation: the buffer is emptied first (see gameframework.cpp's loadFrameworkMessage).
     static const UINT messageIds[15] = {0x119, 0x11A, 0x11B, 0x11C, 0x11D, 0x11F, 0x11E, 0x120, 0x121, 0x122, 0x123, 0x11D, 0x124, 0x124, 0x125};
     message[0] = L'\0';
     LoadStringW(nullptr, messageIds[s_languageFamily], message, 0xFD0);

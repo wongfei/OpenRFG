@@ -1,0 +1,151 @@
+// The message box texts of keen::GameFramework (gameframeworklocatexts.res in the original build).
+// Extracted from the .rsrc section of rfg.exe, text unchanged, typos included.
+// Location: next to gameframeworklocatexts.hpp, the path rfg.pdb records (the .rc path itself is not recorded).
+//
+// Magic numbers: each message has 13 ids in a row, first id + 0..12:
+//   en, de, fr, it, es, ru, pl, ja, pt, ko, cs, zh, ar
+// Slot 8 (pt) is English in the exe except the caption (169) and the crash question (289, other wording).
+// s_messageIdOffsetsByLanguageFamily in gameframework.cpp maps the language family to the slot.
+
+#pragma code_page(65001)
+
+// Magic number: 0x0409, en-US, the language of every resource in rfg.exe.
+LANGUAGE 0x09, 0x01
+
+STRINGTABLE
+BEGIN
+    // Steam client is not running
+    101, L"Your Steam client is not running!"
+    102, L"Dein Steam-Client wurde nicht gestartet!"
+    103, L"Steam ne fonctionne pas\x00a0!"
+    104, L"Il client di Steam non è in esecuzione!"
+    105, L"¡El cliente Steam no se está ejecutando!"
+    106, L"У вас не запущен клиент Steam!"
+    107, L"Twój klient Steam nie działa! "
+    108, L"Steamクライアントが起動していません！"
+    109, L"Your steam client is not running!"
+    110, L"Steam 클라이언트가 실행되고 있지 않습니다!"
+    111, L"Klient služby Steam není spuštěný!"
+    112, L"你的steam客户端没有在运行！"
+    113, L"برنامج steam غير مفعّل!"
+
+    // The game is not owned on Steam
+    131, L"You don't own this game on Steam!"
+    132, L"Du besitzt dieses Spiel auf Steam nicht!"
+    133, L"Vous ne possédez pas ce jeu sur Steam\x00a0!"
+    134, L"Non possiedi questo gioco su Steam!"
+    135, L"¡No tienes este juego en Steam!"
+    136, L"Вы не приобрели эту игру в Steam!"
+    137, L"Nie posiadasz tej gry w serwisie Steam!"
+    138, L"Steamで本ゲームを所有していません！"
+    139, L"You don't own this game on Steam!"
+    140, L"Steam에 보유한 게임이 아닙니다!"
+    141, L"Tuto hru nemáš na službě Steam!"
+    142, L"你在steam上并未拥有此游戏！"
+    143, L"لا تملك اللعبة على Steam!"
+
+    // Message box caption
+    161, L"Error"
+    162, L"Fehler"
+    163, L"Erreur"
+    164, L"Errore"
+    165, L"Error"
+    166, L"Oшибка"
+    167, L"Błąd"
+    168, L"エラー"
+    169, L"Erro"
+    170, L"오류"
+    171, L"Chyba"
+    172, L"错误"
+    173, L"خطأ"
+
+    // DirectX 10 graphics card required
+    191, L"Your graphics card must be compatible with DirectX 10."
+    192, L"Du benötigst eine DirectX 10-kompatible Grafikkarte."
+    193, L"Une carte graphique compatible avec DirectX 10 est nécessaire."
+    194, L"È necessaria una scheda grafica compatibile con DirectX 10."
+    195, L"Necesitas una tarjeta gráfica compatible con DirectX 10."
+    196, L"Видеокарта должна быть совместима с DirectX 10."
+    197, L"Twoja karta graficzna musi być kompatybilna z DirectX 10."
+    198, L"DirectX 10対応のグラフィックカードが必要です。"
+    199, L"Your graphics card must be compatible with DirectX 10."
+    200, L"그래픽 카드가 DirectX 10에 호환되어야 합니다."
+    201, L"Tvoje grafická karta musí být kompatibilní s DirectX 10."
+    202, L"你的显卡必须适配DirectX 10。"
+    203, L"يجب أن تكون بطاقة الرسومات لديك متوافقة مع DirectX 10."
+
+    // SteamRemoteStorage failed
+    221, L"SteamRemoteStorage failed. You will not be able to save or load your game. Try updating your Steam client."
+    222, L"SteamRemoteStorage fehlgeschlagen. Du wirst nicht laden oder speichern können. Versuche den Steam client zu aktualisieren."
+    223, L"Échec de SteamRemoteStorage. Vous ne pourrez pas sauvegarder ou charger la partie. Veuillez mettre à jour le client Steam."
+    224, L"Archivio remoto di Steam non disponibile. Potresti non essere in grado di salvare o caricare la tua partita. Prova ad aggiornare il tuo client di Steam."
+    225, L"SteamRemoteStorage ha sufrido un error. No podrás guardar ni cargar la partida. Prueba a actualizar el cliente de Steam."
+    226, L"Ошибка SteamRemoteStorage. Сохранения и загрузка игры невозможны. Обновите клиент Steam."
+    227, L"Błąd SteamRemoteStorage. Nie będzie można zapisywać i wczytywać stanu gry. Spróbuj zaktualizować klienta Steam."
+    228, L"SteamRemoteStorageが失敗しました。進行状況をセーブしたりロードすることができません。Steamをアップデートしてください。"
+    229, L"SteamRemoteStorage failed. You will not be able to save or load your game. Try updating your Steam client."
+    230, L"SteamRemoteStorage 실패. 게임을 저장하거나 불러올 수 없습니다. Steam 클라이언트를 업데이트해 보시기 바랍니다."
+    231, L"SteamRemoteStorage selhalo. Hru si nebudeš moct ukládat ani načítat. Zkus aktualizovat klienta služby Steam."
+    232, L"steam云存储失败。你将无法保存或载入你的游戏。尝试更新你的steam客户端。"
+    233, L"فشل SteamRemoteStorage. لن تكون قادراً على حفظ تقدمك في اللعبة. حاول تحديث برنامج Steam."
+
+    // MiniDump question
+    251, L"Important information for the coders can be collected to fix this problem if you create a MiniDump.\nHowever it might take a minute or two to gather that information.\n\nDo you want to create a MiniDump?\n\n"
+    252, L"Wichtige Informationen für die Programmierer werden gesammelt, um dieses Problem zu beheben, wenn Sie einen MiniDump erstellen.\nEs kann einen Moment dauern, diese Informationen zu sammeln.\n\nMöchten Sie einen MiniDump erstellen?\n\n"
+    253, L"Des informations importantes pour les développeurs peuvent être collectées pour résoudre ce problème si vous créez un MiniDump.\nCependant, cela peut nécessiter une minute ou deux pour rassembler les informations.\n\n"
+    254, L"La creazione di un  MiniDump permette di raccogliere informazioni utili per i programmatori ai fini della correzione di questo problema.\nIl processo potrebbe richiedere uno o due minuti.\n\nDesideri creare un file MiniDump?\n\n"
+    255, L"Si creas un MiniDump, puedes proporcionar información valiosa para que los programadores corrijan este error.\nReunir esta información puede llevar uno o dos minutos.\n\n¿Quieres crear un MiniDump?\n\n"
+    256, L"Если вы создадите MiniDump, это поможет устранить возникшую проблему.\nЭто может занять пару минут.\n\nХотите создать MiniDump?\n\n"
+    257, L"Jeśli utworzysz plik MiniDump, programiści będą mogli uzyskać informacje potrzebne do naprawienia tego problemu.\nZebranie tych informacji może jednak potrwać kilka minut.\n\nCzy chcesz utworzyć plik MiniDump?\n\n"
+    258, L"MiniDumpを作成することでプログラマが役立てられる情報が収集できる場合があります。\nしかし情報を集めるのに1分か2分ほどかかることがあります。\n\nMiniDumpを作成しますか？\n\n"
+    259, L"Important information for the coders can be collected to fix this problem if you create a MiniDump.\nHowever it might take a minute or two to gather that information.\n\nDo you want to create a MiniDump?\n\n"
+    260, L"미니덤프를 만들면 이 문제 해결을 위해 코더의 중요 정보를 수집할 수 있습니다.\n정보 수집에는 수 분의 시간이 소요될 수 있습니다.\n\n미니덤프를 만드시겠습니가?\n\n"
+    261, L"Pokud vytvoříš soubor MiniDump, můžeš shromáždit důležité informace pro programátory, které jim pomůžou tento problém vyřešit.\nShromáždit tyto informace však může pár minut trvat.\n\nChceš vytvořit MiniDump?\n\n"
+    262, L"创建小型转储即可收集编码器的重要信息来解决这个问题。\n 但收集这些信息可能需要一两分钟。\n\n是否要创建小型转储？\n\n"
+    263, L"يمكن جمع معلومات مهمة للمبرمجين لحل هذه المشكلة إذا أنشأت MiniDump.\x200f \x200e\nولكن قد يستغرق الأمر دقيقة أو اثنتين لجمع تلك المعلومات. \x200e\n\nهل تريد إنشاء MiniDump؟\x200e\n\n"
+
+    // Crash report question (handleFatalError, 0x119)
+    281, L"The game crashed.\n\nUpload a diagnostic file so we can analyze the problem?\n\n(Internet connection charges might apply.)"
+    282, L"Das Spiel ist abgestürzt.\n\nDiagnosedatei hochladen, damit wir das Problem untersuchen können?\n\n(Es könnten Internet-Verbindungsgebühren fällig werden.)"
+    283, L"Le jeu a cessé de fonctionner.\n\nSouhaitez-vous envoyer un fichier de diagnostic pour que nous puissions analyser le problème\x00a0? (Des frais de connexion Internet peuvent s'appliquer.)"
+    284, L"Il gioco si è bloccato.\n\nDesideri caricare un file diagnostico per analizzare il problema?\n\n(Potrebbero applicarsi le tariffe di connessione a Internet)"
+    285, L"El juego se ha bloqueado.\n\n¿Quieres enviar un archivo de diagnóstico para que podamos analizar el problema?\n\n(Pueden aplicarse cargos de conexión a Internet)."
+    286, L"Вы вылетели из игры.\n\nЗагрузить файл диагностики для анализа проблемы?\n\nПотребуется соединение с сетью Интернет."
+    287, L"Wystąpił błąd i gra została wstrzymana.\n\nCzy chcesz wgrać plik diagnostyczny, abyśmy mogli przeanalizować problem?\n\n(Mogą zostać naliczone opłaty za połączenie internetowe.)"
+    288, L"ゲームがクラッシュしました。\n\n問題調査のために診断ファイルをアップロードしますか？\n\n（インターネットの使用料金が発生する場合があります）"
+    289, L"The game crashed.\nDo you want to upload a diagnostic file to allow us to fix the problem?\nInternet connection charges might apply."
+    290, L"게임이 크래시됐습니다.\n\n문제 해결을 위해 진단 파일을 업로드하시겠습니까?\n\n(인터넷 연결 비용이 발생할 수 있습니다.)"
+    291, L"Hra spadla.\n\nChceš nahrát soubor s diagnostikou, abychom mohli problém analyzovat?\n\n(Můžou s tím být spojené poplatky za internet.)"
+    292, L"游戏已崩溃。\n\n 是否要创建一个诊断文件，以便我们分析出现此问题的原因？\n\n（可能会收取互联网连接费用。）"
+    293, L"تعطلت اللعبة. \x200e\n\nهل تريد تحميل ملف تشخيص حتى نتمكن من تحليل المشكلة؟\x200e\n\n(قد يتم فرض رسوم على الاتصال بالإنترنت.)"
+
+    // Initialization failed, data corrupt
+    311, L"Initialization failed. Game data might be corrupt. Please reinstall."
+    312, L"Initialisierung fehlgeschlagen. Spieldaten könnten beschädigt sein. Bitte neu installieren."
+    313, L"L'initialisation a échoué. Les données du jeu sont peut-être corrompues. Veuillez le réinstaller."
+    314, L"Inizializzazione non riuscita. I dati di gioco potrebbero essere corrotti. Reinstalla."
+    315, L"Error al iniciar. Los datos del juego están dañados. Reinstala el juego."
+    316, L"Не удалось инициализировать. Данные могут быть повреждены. Переустановите игру."
+    317, L"Inicjalizacja nie powiodła się. Dane gry mogą być uszkodzone. Zainstaluj ją ponownie."
+    318, L"初期化に失敗しました。デームデータが破損している可能性があります。再インストールしてください。"
+    319, L"Initialization failed. Game data might be corrupt. Please reinstall."
+    320, L"초기화에 실패했습니다. 게임 데이터가 손상됐을 수 있습니다. 다시 설치하세요."
+    321, L"Inicializace se nezdařila. Herní data jsou možná poškozená. Přeinstaluj hru."
+    322, L"初始化失败。游戏数据可能已损坏。请重新安装。"
+    323, L"فشلت التهيئة. قد تكون بيانات اللعبة تالفة. الرجاء إعادة التثبيت."
+
+    // Initialization failed, Steam or data corrupt
+    341, L"Initialization failed. Either the Steam client wasn't started or your game data is corrupt. Please verify your game cache."
+    342, L"Initialisierung fehlgeschlagen. Entweder wurde der Steam-Client nicht gestartet, oder Ihre Spieldaten sind beschädigt. Bitte verifizieren Sie ihren Spiel-Cache."
+    343, L"L'initialisation a échoué. Soit le client Steam n'est pas lancé, soit vos données de jeu sont corrompues. Veuillez vérifier les données en cache de votre jeu."
+    344, L"Inizializzazione non riuscita. Il client Steam non è stato avviato o i dati di gioco sono corrotti. Verifica la cache di gioco."
+    345, L"Error al iniciar. O el cliente de Steam no se está ejecutando o los datos del juego están dañados. Comprueba la caché del juego."
+    346, L"Не удалось инициализировать. Вы не вошли в учетную запись Steam или ваши игровые данные повреждены. Проверьте кэш игры."
+    347, L"Inicjalizacja nie powiodła się. Klient Steam nie uruchomił się albo twoje dane gry są uszkodzone. Zweryfikuj pamięć podręczną gry. "
+    348, L"初期化に失敗しました。Steamクライアントが起動していないか、ゲームデータが破損している可能性があります。ゲームのキャッシュファイルをご確認ください。"
+    349, L"Initialization failed. Either the Steam client wasn't started or your game data is corrupt. Please verify your game cache."
+    350, L"초기화에 실패했습니다. Steam 클라이언트가 시작되지 않았거나 게임 데이터가 손상됐습니다. 게임 캐시를 확인하세요."
+    351, L"Inicializace se nezdařila. Buď nebyl spuštěn klient služby Steam, anebo jsou poškozená herní data. Ověř integritu mezipaměti hry."
+    352, L"初始化失败。可能是Steam客户端没有启动，或是您的游戏数据已经损坏。请验证您的游戏缓存。"
+    353, L"فشلت التهيئة. إما لم يتم تشغيل عميل Steam أو بيانات اللعبة تالفة. الرجاء التحقق من ذاكرة التخزين المؤقت للعبة."
+END

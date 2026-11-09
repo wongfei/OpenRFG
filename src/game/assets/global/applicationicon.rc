@@ -1,0 +1,9 @@
+// The application icon of rfg.exe (applicationicon.res in the original build).
+// Extracted from its .rsrc section; the .ico file name is inferred from the .res name.
+// Location: next to game/assets/global/applicationicon.hpp, the path rfg.pdb records (the .rc path itself is not recorded).
+
+// Magic number: 0x0409, en-US, the language of every resource in rfg.exe.
+LANGUAGE 0x09, 0x01
+
+// Magic number: 101, the id os.cpp and application.cpp load (the window class icons, GameFrameworkParameters::windowIcon).
+101 ICON "applicationicon.ico"

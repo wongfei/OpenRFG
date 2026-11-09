@@ -75,17 +75,17 @@ namespace keen
     // families Pt and Br, and the three Chinese ones, share entries).
     static const uint32 s_messageIdOffsetsByLanguageFamily[15] = {0, 1, 2, 3, 4, 6, 5, 7, 8, 9, 10, 4, 11, 11, 12};
 
-    // The message of one family from the exe's string table. Deviation: the buffer is emptied first, because the
-    // string table of rfg.exe is not linked into the reimplementation (LoadStringW finds nothing and leaves the buffer
-    // as it was).
+    // The message of one family from the exe's string table (gameframeworklocatexts.rc). Deviation: the buffer is
+    // emptied first, so a failed lookup logs nothing instead of the uninitialized stack buffer (LoadStringW finding
+    // nothing leaves the buffer as it was).
     static void loadFrameworkMessage(WCHAR* pBuffer, int capacity, uint32 firstId, LanguageFamily family)
     {
         pBuffer[0] = L'\0';
         LoadStringW(nullptr, firstId + s_messageIdOffsetsByLanguageFamily[family], pBuffer, capacity);
     }
 
-    // OpenRFG addition: the framework's message boxes are replaced by log lines. The string table text is usually
-    // empty (see loadFrameworkMessage), so a short description of the message is printed with it.
+    // OpenRFG addition: the framework's message boxes are replaced by log lines. A short English description of the
+    // message is printed with the localized string table text (see loadFrameworkMessage).
     static void logFrameworkMessage(const char* pCaption, const char* pDescription, const WCHAR* pText)
     {
         char text[4096];
