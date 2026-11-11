@@ -26,9 +26,9 @@ set(OPENRFG_IMPLIB_DIR ${CMAKE_SOURCE_DIR}/lib/win32)
 # of linking sw_api.dll's import library; the programs then need neither sw_api.dll nor steam_api.dll.
 option(OPENRFG_STUB_SWAPI "Build the stand-in sw_api.cpp instead of linking lib/win32/sw_api.lib (no Steam)" OFF)
 
-# OPENRFG_STUB_BINK builds platform_binkw32 from the stand-in bink.cpp (no video plays) instead of linking
-# binkw32.dll's import library; the programs then do not need binkw32.dll.
-option(OPENRFG_STUB_BINK "Build the stand-in bink.cpp instead of linking lib/win32/binkw32.lib (no videos)" OFF)
+# OPENRFG_STUB_BINK builds platform_binkw32 from the stand-in bink.cpp (every video is one black frame) instead of
+# linking binkw32.dll's import library; the programs then do not need binkw32.dll.
+option(OPENRFG_STUB_BINK "Build the stand-in bink.cpp instead of linking lib/win32/binkw32.lib (black videos)" OFF)
 
 # OPENRFG_STUB_DISCORD builds platform_discord_rpc from the stand-in discord_rpc.cpp (no rich presence)
 # instead of linking discord-rpc.dll's import library; the programs then do not need discord-rpc.dll.
