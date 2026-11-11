@@ -30,7 +30,16 @@ option(OPENRFG_WITH_CUSTOM_BINK "Build the stand-in bink.cpp instead of linking 
 # OPENRFG_WITH_CUSTOM_DISCORD builds platform_discord_rpc from the stand-in discord_rpc.cpp (no rich presence)
 # instead of linking discord-rpc.dll's import library; the programs then do not need discord-rpc.dll.
 option(OPENRFG_WITH_CUSTOM_DISCORD "Build the stand-in discord_rpc.cpp instead of linking lib/win32/discord-rpc.lib (no Discord)" OFF)
-set(OPENRFG_PLATFORM_DLLS GfeSDK)
+# OPENRFG_WITH_CUSTOM_GFESDK builds platform_GfeSDK from the stand-in gfesdk.cpp (no NVIDIA highlights) instead of
+# linking GfeSDK.dll's import library; the programs then do not need GfeSDK.dll.
+option(OPENRFG_WITH_CUSTOM_GFESDK "Build the stand-in gfesdk.cpp instead of linking lib/win32/GfeSDK.lib (no NVIDIA highlights)" OFF)
+set(OPENRFG_PLATFORM_DLLS)
+if(OPENRFG_WITH_CUSTOM_GFESDK)
+    add_library(platform_GfeSDK STATIC ${OPENRFG_SRC}/library/modules/thirdparty/nvidiahighlights/src/gfesdk.cpp)
+    target_include_directories(platform_GfeSDK PUBLIC ${OPENRFG_SRC})
+else()
+    list(APPEND OPENRFG_PLATFORM_DLLS GfeSDK)
+endif()
 if(OPENRFG_WITH_CUSTOM_DISCORD)
     add_library(platform_discord_rpc STATIC ${OPENRFG_SRC}/library/modules/thirdparty/discord-rpc/src/discord_rpc.cpp)
     target_include_directories(platform_discord_rpc PUBLIC ${OPENRFG_SRC})
