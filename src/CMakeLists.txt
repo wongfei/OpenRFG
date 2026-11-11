@@ -27,7 +27,16 @@ option(OPENRFG_WITH_CUSTOM_SWAPI "Build the stand-in sw_api.cpp instead of linki
 # OPENRFG_WITH_CUSTOM_BINK builds platform_binkw32 from the stand-in bink.cpp (no video plays) instead of linking
 # binkw32.dll's import library; the programs then do not need binkw32.dll.
 option(OPENRFG_WITH_CUSTOM_BINK "Build the stand-in bink.cpp instead of linking lib/win32/binkw32.lib (no videos)" OFF)
-set(OPENRFG_PLATFORM_DLLS discord-rpc GfeSDK)
+# OPENRFG_WITH_CUSTOM_DISCORD builds platform_discord_rpc from the stand-in discord_rpc.cpp (no rich presence)
+# instead of linking discord-rpc.dll's import library; the programs then do not need discord-rpc.dll.
+option(OPENRFG_WITH_CUSTOM_DISCORD "Build the stand-in discord_rpc.cpp instead of linking lib/win32/discord-rpc.lib (no Discord)" OFF)
+set(OPENRFG_PLATFORM_DLLS GfeSDK)
+if(OPENRFG_WITH_CUSTOM_DISCORD)
+    add_library(platform_discord_rpc STATIC ${OPENRFG_SRC}/library/modules/thirdparty/discord-rpc/src/discord_rpc.cpp)
+    target_include_directories(platform_discord_rpc PUBLIC ${OPENRFG_SRC})
+else()
+    list(APPEND OPENRFG_PLATFORM_DLLS discord-rpc)
+endif()
 if(OPENRFG_WITH_CUSTOM_SWAPI)
     add_library(platform_sw_api STATIC ${OPENRFG_SRC}/library/modules/thirdparty/sw_api/sw_api.cpp)
     target_include_directories(platform_sw_api PUBLIC ${OPENRFG_SRC})
