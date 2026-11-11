@@ -21,7 +21,17 @@ target_include_directories(keen_tlsf PUBLIC ${OPENRFG_SRC})
 # CMakeLists.txt) when OPENRFG_GAME_DIR has them; the build does not need them, the program does to start.
 set(OPENRFG_GAME_DIR "C:/Program Files (x86)/Steam/steamapps/common/Red Faction Guerrilla Re-MARS-tered" CACHE PATH "The game directory the DLLs are copied from after the link (optional for the build)")
 set(OPENRFG_IMPLIB_DIR ${CMAKE_SOURCE_DIR}/lib/win32)
-foreach(dll sw_api discord-rpc GfeSDK binkw32)
+# OPENRFG_WITH_CUSTOM_SWAPI builds platform_sw_api from the stand-in sw_api.cpp (no Steam: run with --no-steam) instead
+# of linking sw_api.dll's import library; the programs then need neither sw_api.dll nor steam_api.dll.
+option(OPENRFG_WITH_CUSTOM_SWAPI "Build the stand-in sw_api.cpp instead of linking lib/win32/sw_api.lib (no Steam)" OFF)
+set(OPENRFG_PLATFORM_DLLS discord-rpc GfeSDK binkw32)
+if(OPENRFG_WITH_CUSTOM_SWAPI)
+    add_library(platform_sw_api STATIC ${OPENRFG_SRC}/library/modules/thirdparty/sw_api/sw_api.cpp)
+    target_include_directories(platform_sw_api PUBLIC ${OPENRFG_SRC})
+else()
+    list(APPEND OPENRFG_PLATFORM_DLLS sw_api)
+endif()
+foreach(dll ${OPENRFG_PLATFORM_DLLS})
     string(REPLACE "-" "_" dll_target ${dll})
     add_library(platform_${dll_target} SHARED IMPORTED GLOBAL)
     set_target_properties(platform_${dll_target} PROPERTIES IMPORTED_IMPLIB ${OPENRFG_IMPLIB_DIR}/${dll}.lib IMPORTED_LOCATION ${OPENRFG_GAME_DIR}/${dll}.dll)
