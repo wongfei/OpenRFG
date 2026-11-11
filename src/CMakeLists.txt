@@ -24,12 +24,21 @@ set(OPENRFG_IMPLIB_DIR ${CMAKE_SOURCE_DIR}/lib/win32)
 # OPENRFG_WITH_CUSTOM_SWAPI builds platform_sw_api from the stand-in sw_api.cpp (no Steam: run with --no-steam) instead
 # of linking sw_api.dll's import library; the programs then need neither sw_api.dll nor steam_api.dll.
 option(OPENRFG_WITH_CUSTOM_SWAPI "Build the stand-in sw_api.cpp instead of linking lib/win32/sw_api.lib (no Steam)" OFF)
-set(OPENRFG_PLATFORM_DLLS discord-rpc GfeSDK binkw32)
+# OPENRFG_WITH_CUSTOM_BINK builds platform_binkw32 from the stand-in bink.cpp (no video plays) instead of linking
+# binkw32.dll's import library; the programs then do not need binkw32.dll.
+option(OPENRFG_WITH_CUSTOM_BINK "Build the stand-in bink.cpp instead of linking lib/win32/binkw32.lib (no videos)" OFF)
+set(OPENRFG_PLATFORM_DLLS discord-rpc GfeSDK)
 if(OPENRFG_WITH_CUSTOM_SWAPI)
     add_library(platform_sw_api STATIC ${OPENRFG_SRC}/library/modules/thirdparty/sw_api/sw_api.cpp)
     target_include_directories(platform_sw_api PUBLIC ${OPENRFG_SRC})
 else()
     list(APPEND OPENRFG_PLATFORM_DLLS sw_api)
+endif()
+if(OPENRFG_WITH_CUSTOM_BINK)
+    add_library(platform_binkw32 STATIC ${OPENRFG_SRC}/library/modules/thirdparty/bink/bink_1_300_7_0/src/bink.cpp)
+    target_include_directories(platform_binkw32 PUBLIC ${OPENRFG_SRC})
+else()
+    list(APPEND OPENRFG_PLATFORM_DLLS binkw32)
 endif()
 foreach(dll ${OPENRFG_PLATFORM_DLLS})
     string(REPLACE "-" "_" dll_target ${dll})
