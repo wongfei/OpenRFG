@@ -21,48 +21,59 @@ target_include_directories(keen_tlsf PUBLIC ${OPENRFG_SRC})
 # CMakeLists.txt) when OPENRFG_GAME_DIR has them; the build does not need them, the program does to start.
 set(OPENRFG_GAME_DIR "C:/Program Files (x86)/Steam/steamapps/common/Red Faction Guerrilla Re-MARS-tered" CACHE PATH "The game directory the DLLs are copied from after the link (optional for the build)")
 set(OPENRFG_IMPLIB_DIR ${CMAKE_SOURCE_DIR}/lib/win32)
-# OPENRFG_WITH_CUSTOM_SWAPI builds platform_sw_api from the stand-in sw_api.cpp (no Steam: run with --no-steam) instead
+
+# OPENRFG_STUB_SWAPI builds platform_sw_api from the stand-in sw_api.cpp (no Steam: run with --no-steam) instead
 # of linking sw_api.dll's import library; the programs then need neither sw_api.dll nor steam_api.dll.
-option(OPENRFG_WITH_CUSTOM_SWAPI "Build the stand-in sw_api.cpp instead of linking lib/win32/sw_api.lib (no Steam)" OFF)
-# OPENRFG_WITH_CUSTOM_BINK builds platform_binkw32 from the stand-in bink.cpp (no video plays) instead of linking
+option(OPENRFG_STUB_SWAPI "Build the stand-in sw_api.cpp instead of linking lib/win32/sw_api.lib (no Steam)" OFF)
+
+# OPENRFG_STUB_BINK builds platform_binkw32 from the stand-in bink.cpp (no video plays) instead of linking
 # binkw32.dll's import library; the programs then do not need binkw32.dll.
-option(OPENRFG_WITH_CUSTOM_BINK "Build the stand-in bink.cpp instead of linking lib/win32/binkw32.lib (no videos)" OFF)
-# OPENRFG_WITH_CUSTOM_DISCORD builds platform_discord_rpc from the stand-in discord_rpc.cpp (no rich presence)
+option(OPENRFG_STUB_BINK "Build the stand-in bink.cpp instead of linking lib/win32/binkw32.lib (no videos)" OFF)
+
+# OPENRFG_STUB_DISCORD builds platform_discord_rpc from the stand-in discord_rpc.cpp (no rich presence)
 # instead of linking discord-rpc.dll's import library; the programs then do not need discord-rpc.dll.
-option(OPENRFG_WITH_CUSTOM_DISCORD "Build the stand-in discord_rpc.cpp instead of linking lib/win32/discord-rpc.lib (no Discord)" OFF)
-# OPENRFG_WITH_CUSTOM_GFESDK builds platform_GfeSDK from the stand-in gfesdk.cpp (no NVIDIA highlights) instead of
+option(OPENRFG_STUB_DISCORD "Build the stand-in discord_rpc.cpp instead of linking lib/win32/discord-rpc.lib (no Discord)" OFF)
+
+# OPENRFG_STUB_GFESDK builds platform_GfeSDK from the stand-in gfesdk.cpp (no NVIDIA highlights) instead of
 # linking GfeSDK.dll's import library; the programs then do not need GfeSDK.dll.
-option(OPENRFG_WITH_CUSTOM_GFESDK "Build the stand-in gfesdk.cpp instead of linking lib/win32/GfeSDK.lib (no NVIDIA highlights)" OFF)
+option(OPENRFG_STUB_GFESDK "Build the stand-in gfesdk.cpp instead of linking lib/win32/GfeSDK.lib (no NVIDIA highlights)" OFF)
+
 set(OPENRFG_PLATFORM_DLLS)
-if(OPENRFG_WITH_CUSTOM_GFESDK)
-    add_library(platform_GfeSDK STATIC ${OPENRFG_SRC}/library/modules/thirdparty/nvidiahighlights/src/gfesdk.cpp)
+
+if(OPENRFG_STUB_GFESDK)
+    add_library(platform_GfeSDK STATIC ${OPENRFG_SRC}/stubs/thirdparty/gfesdk.cpp)
     target_include_directories(platform_GfeSDK PUBLIC ${OPENRFG_SRC})
 else()
     list(APPEND OPENRFG_PLATFORM_DLLS GfeSDK)
 endif()
-if(OPENRFG_WITH_CUSTOM_DISCORD)
-    add_library(platform_discord_rpc STATIC ${OPENRFG_SRC}/library/modules/thirdparty/discord-rpc/src/discord_rpc.cpp)
+
+if(OPENRFG_STUB_DISCORD)
+    add_library(platform_discord_rpc STATIC ${OPENRFG_SRC}/stubs/thirdparty/discord_rpc.cpp)
     target_include_directories(platform_discord_rpc PUBLIC ${OPENRFG_SRC})
 else()
     list(APPEND OPENRFG_PLATFORM_DLLS discord-rpc)
 endif()
-if(OPENRFG_WITH_CUSTOM_SWAPI)
-    add_library(platform_sw_api STATIC ${OPENRFG_SRC}/library/modules/thirdparty/sw_api/sw_api.cpp)
+
+if(OPENRFG_STUB_SWAPI)
+    add_library(platform_sw_api STATIC ${OPENRFG_SRC}/stubs/thirdparty/sw_api.cpp)
     target_include_directories(platform_sw_api PUBLIC ${OPENRFG_SRC})
 else()
     list(APPEND OPENRFG_PLATFORM_DLLS sw_api)
 endif()
-if(OPENRFG_WITH_CUSTOM_BINK)
-    add_library(platform_binkw32 STATIC ${OPENRFG_SRC}/library/modules/thirdparty/bink/bink_1_300_7_0/src/bink.cpp)
+
+if(OPENRFG_STUB_BINK)
+    add_library(platform_binkw32 STATIC ${OPENRFG_SRC}/stubs/thirdparty/bink.cpp)
     target_include_directories(platform_binkw32 PUBLIC ${OPENRFG_SRC})
 else()
     list(APPEND OPENRFG_PLATFORM_DLLS binkw32)
 endif()
+
 foreach(dll ${OPENRFG_PLATFORM_DLLS})
     string(REPLACE "-" "_" dll_target ${dll})
     add_library(platform_${dll_target} SHARED IMPORTED GLOBAL)
     set_target_properties(platform_${dll_target} PROPERTIES IMPORTED_IMPLIB ${OPENRFG_IMPLIB_DIR}/${dll}.lib IMPORTED_LOCATION ${OPENRFG_GAME_DIR}/${dll}.dll)
 endforeach()
+
 # sw_api.dll loads steam_api.dll at run time (it does not import it), so the copy takes it along.
 set(OPENRFG_STEAM_API_DLL ${OPENRFG_GAME_DIR}/steam_api.dll CACHE INTERNAL "")
 

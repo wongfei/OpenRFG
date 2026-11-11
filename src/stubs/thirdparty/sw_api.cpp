@@ -1,5 +1,5 @@
 // Stand-in for SW_API.DLL (sw_api.h), new code: built instead of linking lib/win32/sw_api.lib when CMake's
-// OPENRFG_WITH_CUSTOM_SWAPI is on. Steam never starts: SW_CCSys_Init fails, there is no user or pipe, no interface is
+// OPENRFG_STUB_SWAPI is on. Steam never starts: SW_CCSys_Init fails, there is no user or pipe, no interface is
 // created, callbacks and call results are accepted and never run, and the SW_Has* feature queries say no.
 //
 // With it, GameFramework::initialize gives up when the application asks for Steam (as rfg.exe does when Steam does not

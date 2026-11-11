@@ -1,5 +1,5 @@
 // Stand-in for discord-rpc.dll (discord_rpc.h), new code: built instead of linking lib/win32/discord-rpc.lib when
-// CMake's OPENRFG_WITH_CUSTOM_DISCORD is on. Discord is never reached: nothing connects, no presence is shown, and
+// CMake's OPENRFG_STUB_DISCORD is on. Discord is never reached: nothing connects, no presence is shown, and
 // none of the event handlers given to Discord_Initialize is ever called (no ready, no join request). Every caller
 // ignores the results (keen::rfg::Application, multi_core_platform.cpp), so the game runs as without the Discord
 // client. The program does not need discord-rpc.dll next to it.

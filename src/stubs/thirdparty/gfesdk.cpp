@@ -1,5 +1,5 @@
 // Stand-in for GfeSDK.dll (isdk.h, highlights/ihighlights.h), new code: built instead of linking lib/win32/GfeSDK.lib
-// when CMake's OPENRFG_WITH_CUSTOM_GFESDK is on. GeForce Experience is never reached: NVGSDK_Create fails with
+// when CMake's OPENRFG_STUB_GFESDK is on. GeForce Experience is never reached: NVGSDK_Create fails with
 // NVGSDK_ERR_NO_CONNECTION, which nvidia_highlights_init already treats as no GeForce Experience (it returns false and
 // the highlights stay uninitialized, so no other call is made). The other functions do nothing and never call their
 // callbacks (the SDK runs them from NVGSDK_Poll, and there is nothing to report). The program does not need GfeSDK.dll

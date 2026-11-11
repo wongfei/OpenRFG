@@ -1,5 +1,5 @@
 // Stand-in for binkw32.dll (bink.h), new code: built instead of linking lib/win32/binkw32.lib when CMake's
-// OPENRFG_WITH_CUSTOM_BINK is on. No movie ever opens: BinkOpen returns nullptr, which the video player already treats
+// OPENRFG_STUB_BINK is on. No movie ever opens: BinkOpen returns nullptr, which the video player already treats
 // as a failed play (video_player.cpp, play: the tracker is destroyed and 0 returned), so videos are skipped. The other
 // functions are only reached with a handle the stub never gives out, or for global settings; they do nothing and
 // report nothing done. The program does not need binkw32.dll next to it.
